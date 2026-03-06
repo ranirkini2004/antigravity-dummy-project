@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern To-Do App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Tasks</h1>
+            <p>Stay organized, stay creative.</p>
+        </header>
+
+        <form action="/add" method="POST" class="add-task-form">
+            <input type="text" name="content" required placeholder="What needs to be done?">
+            <button type="submit" title="Add Task">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+        </form>
+
+        <ul class="task-list">
+            {% for task in tasks %}
+            <li class="task-item {% if task.completed %}completed{% endif %}">
+                <div class="task-content">
+                    <a href="/complete/{{ task.id }}" class="checkbox-btn" title="Toggle Completion">
+                        {% if task.completed %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        {% endif %}
+                    </a>
+                    <span class="text">{{ task.content }}</span>
+                </div>
+                <a href="/delete/{{ task.id }}" class="delete-btn" title="Delete Task">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </a>
+            </li>
+            {% else %}
+            <div class="empty-state">
+                <p>No tasks yet. Add one above!</p>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
